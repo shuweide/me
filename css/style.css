@@ -1,0 +1,89 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+.fz24-lh42-fw700 {
+    font-size: 24px;
+    line-height: 42px;
+    font-weight: 700;
+}
+
+.header {
+    background: url(../images/banner.png) center center no-repeat;
+    height: 958px;
+    color: #fff;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 64px;
+}
+.title {
+    padding-top: 100px;
+    margin-bottom: 32px;
+}
+.title h1 {
+    font-size: 80px;
+    line-height: 94px;
+    font-weight: 900;
+}
+.description {
+    margin-bottom: 48px;
+}
+.header ul {
+    display: flex;
+    width: 288px;
+    justify-content: space-between;
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.about h2 {
+    font-size: 64px;
+    line-height: 75px;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+.about img {
+    width: 384px;
+    margin-bottom: 24px;
+    display: block;
+}
+.about p {
+    text-align: center;
+    width: 412px;
+    margin-bottom: 12px;
+}
+.about ul {
+    border-top: 1px solid #000;
+    width: 384px;
+    margin-bottom: 56px;
+}
+.about ul > li {
+    margin-top: 32px;
+    position: relative;
+    text-align: center;
+    margin-left: 38px;
+}
+.about ul > li::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background-color: #891818;
+    border-radius: 50%;
+    /** (42-22)/2 **/
+    top: 10px;
+    /** 16px + 22px **/
+    margin-left: -38px;
+}
+
