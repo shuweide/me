@@ -3,7 +3,7 @@
 }
 
 body {
-    font-family: Roboto, sans-serif;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
 }
 
 .fz24-lh42 {
@@ -11,11 +11,16 @@ body {
     line-height: 42px;
 }
 
-.fw700{
+.fz64-lh75 {
+    font-size: 64px;
+    line-height: 75px;
+}
+
+.fw700 {
     font-weight: 700;
 }
-.fw500{
-    font-weight: 500px;
+.fw500 {
+    font-weight: 500;
 }
 
 .header {
@@ -54,9 +59,6 @@ body {
     align-items: center;
 }
 .about h2 {
-    font-size: 64px;
-    line-height: 75px;
-    font-weight: 500;
     margin-bottom: 40px;
 }
 .about img {
@@ -93,7 +95,7 @@ body {
     margin-left: -38px;
 }
 
-.brand{
+.brand {
     padding-top: 64px;
     padding-bottom: 120px;
     background: #000;
@@ -101,33 +103,79 @@ body {
     text-align: center;
 }
 
-.brand h2{
-    font-size: 64px;
-    line-height: 75px;
+.brand h2 {
     margin-bottom: 16px;
 }
 
-.brand h3{
+.brand h3 {
     margin-bottom: 32px;
 }
 
-.brand p{
+.brand p {
     font-size: 20px;
     line-height: 42px;
     margin-bottom: 48px;
 }
 
-.imgContainer{
+.imgContainer {
     width: 1224px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
 }
 
-.imgContainer img{
+.imgContainer img {
     margin-bottom: 40px;
-    margin-left: 12px;
-    margin-right: 12px;
     display: block;
+}
+
+.otherWorks {
+    height: 1919px;
+    background: #fff url(../images/otherworks_bg.png) no-repeat center bottom;
+    padding-top: 64px;
+    text-align: center;
+}
+
+.otherWorks h2 {
+    margin-bottom: 24px;
+}
+
+.otherWorks p {
+    font-size: 20px;
+    line-height: 42px;
+    margin-bottom: 48px;
+}
+
+.otherWorks ul {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.otherWorks ul img {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.contact{
+    background: #000;
+    text-align: center;
+    color: #fff;
+    
+    padding-top: 64px;
+    padding-bottom: 80px;
+}
+
+.contact h2{
+    margin-bottom: 16px;
+}
+
+.contact li {
+    font-size: 24px;
+    line-height: 36px;
+    margin-bottom: 16px;
 }
