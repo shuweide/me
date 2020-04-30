@@ -3,13 +3,19 @@
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: Roboto, sans-serif;
 }
 
-.fz24-lh42-fw700 {
+.fz24-lh42 {
     font-size: 24px;
     line-height: 42px;
+}
+
+.fw700{
     font-weight: 700;
+}
+.fw500{
+    font-weight: 500px;
 }
 
 .header {
@@ -87,3 +93,41 @@ body {
     margin-left: -38px;
 }
 
+.brand{
+    padding-top: 64px;
+    padding-bottom: 120px;
+    background: #000;
+    color: #fff;
+    text-align: center;
+}
+
+.brand h2{
+    font-size: 64px;
+    line-height: 75px;
+    margin-bottom: 16px;
+}
+
+.brand h3{
+    margin-bottom: 32px;
+}
+
+.brand p{
+    font-size: 20px;
+    line-height: 42px;
+    margin-bottom: 48px;
+}
+
+.imgContainer{
+    width: 1224px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.imgContainer img{
+    margin-bottom: 40px;
+    margin-left: 12px;
+    margin-right: 12px;
+    display: block;
+}
