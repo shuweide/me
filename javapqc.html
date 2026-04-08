@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 與後量子密碼學 (PQC) 互動指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fafaf9; /* Tailwind stone-50 */
+            color: #292524; /* Tailwind stone-800 */
+        }
+        
+        /* ======================================================================
+        Chart Container Styling Requirements (CRITICAL)
+        ======================================================================
+        */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                        java: {
+                            orange: '#ea580c', /* orange-600 */
+                            blue: '#0369a1', /* sky-700 */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased selection:bg-java-orange selection:text-white">
+
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Java Corporate Accents (Subtle Orange and Sky Blue) -->
+    <!-- Application Structure Plan: The SPA uses a linear storytelling dashboard approach. 
+         1. The Threat (Why do we care?): Introduces the quantum threat and HNDL concept using an interactive chart.
+         2. The Standards (What is the solution?): Lays out the NIST algorithms in clean cards for quick understanding.
+         3. The Roadmap (How is Java responding?): An interactive timeline allowing users to explore JDK releases and their PQC features. This makes the release history exploratory rather than a static list.
+         4. The Impact (What should devs do?): Explains the Hybrid approach and concludes the report's main takeaway (it's transparent).
+         This structure logically moves from Problem -> Theory -> Practical Implementation (Java) -> User Impact. -->
+    <!-- Visualization & Content Choices: 
+         - HNDL Threat: Chart.js Doughnut. Goal: Inform/Compare. Justification: Visually demonstrates the vulnerability of current data vs. the need for PQC.
+         - Algorithms: HTML/CSS CSS Grid Cards. Goal: Organize. Justification: Clear categorization of complex acronyms (ML-KEM, ML-DSA) without overwhelming the user.
+         - Java Roadmap: HTML/JS Interactive Timeline. Goal: Organize/Change. Justification: Allows users to click through JDK versions (21-27) to see progressive feature implementation, reinforcing the active development cycle.
+         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Uses HTML/CSS shapes, Unicode emojis, and Canvas (Chart.js). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation / Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">☕</span>
+                <h1 class="text-xl font-bold text-stone-800 tracking-tight">Java 與後量子密碼學 <span class="text-java-blue text-sm font-normal ml-2 bg-stone-100 px-2 py-1 rounded">PQC 解析</span></h1>
+            </div>
+            <nav class="flex gap-4 text-sm font-medium text-stone-600">
+                <a href="#threat" class="hover:text-java-orange transition-colors">量子威脅</a>
+                <a href="#standards" class="hover:text-java-orange transition-colors">PQC 標準</a>
+                <a href="#roadmap" class="hover:text-java-orange transition-colors">Java 實施藍圖</a>
+                <a href="#impact" class="hover:text-java-orange transition-colors">開發者影響</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-24">
+
+        <!-- Hero Section -->
+        <section class="text-center space-y-6 pt-12 pb-8">
+            <div class="inline-block bg-orange-100 text-java-orange px-4 py-1 rounded-full text-sm font-semibold tracking-wide mb-2 border border-orange-200">
+                前瞻技術分析報告
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold text-stone-900 leading-tight">
+                迎接 Java 的 <br class="md:hidden" /> <span class="text-transparent bg-clip-text bg-gradient-to-r from-java-orange to-java-blue">後量子安全時代</span>
+            </h2>
+            <p class="text-lg text-stone-600 max-w-2xl mx-auto leading-relaxed">
+                隨著量子計算技術的推進，現有的網路加密標準正面臨前所未有的挑戰。本指南基於 Oracle OpenJDK 安全小組的最新報告，帶您深入了解 Java 平台如何未雨綢繆，為未來的資訊安全打下堅實基礎。
+            </p>
+        </section>
+
+        <!-- Section 1: The Threat -->
+        <section id="threat" class="scroll-mt-24">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-stone-800 flex items-center gap-2">
+                    <span>⚠️</span> 量子危機：為何現在就要行動？
+                </h3>
+                <p class="mt-4 text-stone-600 max-w-3xl leading-relaxed">
+                    此區塊剖析了量子電腦對現有密碼學的威脅。您將了解到為什麼即使強大量子電腦尚未普及，產業界仍急於推動 PQC。透過互動圖表，我們視覺化了目前最嚴重的安全漏洞概念。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center bg-white p-8 rounded-2xl shadow-sm border border-stone-100">
+                <div class="space-y-6">
+                    <div class="bg-stone-50 p-6 rounded-xl border border-stone-200 border-l-4 border-l-java-orange">
+                        <h4 class="text-xl font-bold text-stone-800 mb-2">Shor 演算法的威脅</h4>
+                        <p class="text-stone-600 text-sm leading-relaxed">
+                            未來的量子電腦能夠利用 Shor 演算法，在極短時間內破解目前廣泛使用的非對稱加密（如 RSA、Diffie-Hellman 和橢圓曲線加密）。這些演算法是現今 TLS 網路通訊的基礎。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-stone-50 p-6 rounded-xl border border-stone-200 border-l-4 border-l-java-blue">
+                        <h4 class="text-xl font-bold text-stone-800 mb-2">HNDL：先收集，後解密</h4>
+                        <p class="text-stone-600 text-sm leading-relaxed">
+                            <strong>Harvest Now, Decrypt Later (HNDL)</strong> 這是目前最迫切的威脅。攻擊者現在就可以攔截並儲存加密的網路通訊數據。雖然他們現在無法解密，但等到 10-20 年後量子電腦成熟，他們就能使用未來的算力解開過去的機密。這使得升級<span class="font-bold text-java-orange">密鑰交換（Key Exchange）</span>機制變得極為急迫。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center justify-center p-4">
+                    <h4 class="text-center font-semibold text-stone-700 mb-4">當前傳統加密資料暴露風險 (概念圖)</h4>
+                    <!-- Mandatory Chart Container -->
+                    <div class="chart-container">
+                        <canvas id="threatChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-4 text-center">互動：將滑鼠懸停在圖表區塊以查看資料狀態說明。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Standards -->
+        <section id="standards" class="scroll-mt-24">
+            <div class="mb-8 text-center">
+                <h3 class="text-3xl font-bold text-stone-800 flex items-center justify-center gap-2">
+                    <span>🛡️</span> NIST 的解方：PQC 標準化
+                </h3>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto leading-relaxed">
+                    為了對抗量子運算，美國國家標準暨技術研究院 (NIST) 正在推動一系列能抵抗量子攻擊的新演算法。以下卡片展示了 Java 將支援的核心標準，您可以將滑鼠停留在卡片上查看其功能重點。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-md hover:border-java-blue group">
+                    <div class="text-4xl mb-4 opacity-80 group-hover:opacity-100 transition-opacity">🔐</div>
+                    <h4 class="text-xl font-bold text-stone-800 mb-1">ML-KEM (Kyber)</h4>
+                    <div class="text-xs font-semibold text-java-blue bg-blue-50 inline-block px-2 py-1 rounded mb-4">密鑰封裝 (Key Encapsulation)</div>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        基於格（Lattice-based）的演算法。主要用於安全地建立和交換對稱密鑰，是防禦「先收集，後解密」(HNDL) 攻擊的關鍵武器。
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-md hover:border-java-orange group">
+                    <div class="text-4xl mb-4 opacity-80 group-hover:opacity-100 transition-opacity">✍️</div>
+                    <h4 class="text-xl font-bold text-stone-800 mb-1">ML-DSA (Dilithium)</h4>
+                    <div class="text-xs font-semibold text-java-orange bg-orange-50 inline-block px-2 py-1 rounded mb-4">數位簽章 (Digital Signature)</div>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        同樣基於格的演算法。用於驗證身份和確保資料完整性。將取代現有的 RSA 或 ECDSA 簽章，防止未來的偽造攻擊。
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-md hover:border-stone-400 group">
+                    <div class="text-4xl mb-4 opacity-80 group-hover:opacity-100 transition-opacity">#️⃣</div>
+                    <h4 class="text-xl font-bold text-stone-800 mb-1">SLH-DSA</h4>
+                    <div class="text-xs font-semibold text-stone-600 bg-stone-100 inline-block px-2 py-1 rounded mb-4">基於雜湊的簽章</div>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        一種完全不同的數學基礎，使用無狀態雜湊函數（Hash-based）。作為基於格演算法的備用方案，提供多樣性的安全防護。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Java Roadmap (Interactive Timeline) -->
+        <section id="roadmap" class="scroll-mt-24">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-stone-800 flex items-center gap-2">
+                    <span>🛤️</span> Java 的 PQC 實施藍圖
+                </h3>
+                <p class="mt-4 text-stone-600 max-w-3xl leading-relaxed">
+                    Java 團隊採取循序漸進的策略來佈署 PQC。<strong>請點擊下方的 JDK 版本按鈕</strong>，探索每個版本中加入了哪些關鍵的後量子密碼學功能與 API。這展示了 Java 從底層基礎建設到高層應用的演進過程。
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-stone-200 overflow-hidden">
+                <div class="grid md:grid-cols-12 min-h-[400px]">
+                    <!-- Timeline Controls (Left) -->
+                    <div class="md:col-span-4 bg-stone-50 border-r border-stone-200 p-6 flex flex-col gap-3" id="timeline-controls">
+                        <!-- Buttons injected via JS -->
+                    </div>
+
+                    <!-- Timeline Details (Right) -->
+                    <div class="md:col-span-8 p-8 md:p-12 flex flex-col justify-center" id="timeline-detail">
+                        <!-- Default state -->
+                        <div class="text-center text-stone-400">
+                            <div class="text-5xl mb-4">👈</div>
+                            <p class="text-lg">請選擇左側的 JDK 版本以查看詳細資訊</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Hybrid Approach & Impact -->
+        <section id="impact" class="scroll-mt-24">
+            <div class="mb-8 text-center">
+                <h3 class="text-3xl font-bold text-stone-800 flex items-center justify-center gap-2">
+                    <span>🤝</span> 混合模式與開發者影響
+                </h3>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto leading-relaxed">
+                    過渡到新加密演算法並非一蹴可幾。了解 Java 如何透過「混合模式」兼顧安全與穩定，以及這些變更對您的應用程式程式碼有何影響。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-java-blue/5 p-8 rounded-2xl border border-java-blue/20">
+                    <h4 class="text-xl font-bold text-java-blue mb-4 flex items-center gap-2">
+                        <span class="text-2xl">🔗</span> 為什麼需要「混合模式」？
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-6">
+                        PQC 演算法雖然理論上能抵抗量子計算，但它們相對較新，尚未經過長時間的實戰考驗（Battle-tested）。
+                        <br><br>
+                        因此，Java（與 IETF 標準）採用了<strong>混合方案 (Hybrid Schemes)</strong>，將傳統演算法（如 X25519）與 PQC 演算法（如 ML-KEM）結合。
+                    </p>
+                    <div class="bg-white p-4 rounded-xl border border-java-blue/20 flex flex-col gap-2">
+                        <div class="flex justify-between items-center text-sm font-bold">
+                            <span class="text-stone-600">傳統演算法 (如 X25519)</span>
+                            <span class="text-green-600">✔️ 防禦現在</span>
+                        </div>
+                        <div class="flex justify-center text-stone-400 font-bold">+</div>
+                        <div class="flex justify-between items-center text-sm font-bold">
+                            <span class="text-stone-600">PQC 演算法 (如 ML-KEM)</span>
+                            <span class="text-java-orange">✔️ 防禦未來 (量子)</span>
+                        </div>
+                        <hr class="border-stone-100 my-1">
+                        <div class="text-center text-java-blue font-bold text-sm">
+                            只要其中一個未被破解，通訊就是安全的！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 p-8 rounded-2xl border border-orange-200 flex flex-col justify-center">
+                    <h4 class="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2">
+                        <span class="text-2xl">👨‍💻</span> 對 Java 開發者的影響
+                    </h4>
+                    <div class="bg-white p-6 rounded-xl border border-orange-100 shadow-sm mb-6">
+                        <p class="text-lg text-stone-800 font-medium mb-2">好消息：幾乎是透明且自動的！</p>
+                        <p class="text-stone-600 text-sm leading-relaxed">
+                            對於大多數使用標準 TLS 通訊的 Java 應用程式，升級過程將是無痛的。
+                        </p>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3">
+                            <span class="text-green-500 font-bold">✓</span>
+                            <span class="text-stone-700 text-sm">在 <strong>JDK 27</strong> 中，TLS 1.3 預設會支援並啟用後量子混合密鑰交換。</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-green-500 font-bold">✓</span>
+                            <span class="text-stone-700 text-sm">只要您的伺服器/客戶端對等端也支援，系統將自動協商使用量子安全的連線。</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-green-500 font-bold">✓</span>
+                            <span class="text-stone-700 text-sm"><strong>無須修改程式碼</strong>、無須呼叫新 API、無須修改設定檔。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-8 border-t border-stone-800 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+            <p>本互動指南基於 Oracle OpenJDK 團隊 "Java and Post-Quantum Cryptography" 報告內容製作。</p>
+            <p class="mt-2">SPA 結構設計：強調問題急迫性、標準化解方，並透過互動時間軸探索技術落地過程。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Initialize Threat Chart (Chart.js)
+            const ctx = document.getElementById('threatChart').getContext('2d');
+            const threatChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['暴露於 HNDL 風險 (傳統加密)', '量子安全加密 (現狀)'],
+                    datasets: [{
+                        data: [98, 2], // Conceptual data representing current state
+                        backgroundColor: [
+                            '#ea580c', // java-orange for vulnerable
+                            '#d6d3d1'  // stone-300 for secure
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart container limits
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { family: "'Noto Sans TC', sans-serif" }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed !== null) { label += context.parsed + '%'; }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. Interactive Roadmap Timeline Logic
+            const roadmapData = [
+                {
+                    version: "JDK 21",
+                    year: "基礎建設",
+                    title: "HSS/LMS 與 KEM API 奠基",
+                    content: "Java 開始建立 PQC 的底層建築。引入了 <strong>HSS/LMS</strong> (狀態雜湊簽章) 用於生命週期長的簽章（如韌體更新）。同時，設計了全新的 <strong>KEM (Key Encapsulation Mechanism) API</strong>，為後續的密鑰交換演算法鋪路。",
+                    color: "bg-stone-200 text-stone-800 hover:bg-stone-300",
+                    activeColor: "bg-stone-800 text-white"
+                },
+                {
+                    version: "JDK 24",
+                    year: "核心演算法",
+                    title: "正式實作 ML-KEM & ML-DSA",
+                    content: "這是重大的一步。Java 正式內建了 NIST 標準化的後量子演算法實作。基於 JDK 21 的 KEM API 實作了抗量子的 <strong>ML-KEM</strong> (密鑰封裝)，並實作了 <strong>ML-DSA</strong> (數位簽章)。這為高階應用準備了必要的加密原語 (Primitives)。",
+                    color: "bg-stone-200 text-stone-800 hover:bg-stone-300",
+                    activeColor: "bg-java-orange text-white"
+                },
+                {
+                    version: "JDK 25",
+                    year: "進階支援",
+                    title: "引入 KDF API",
+                    content: "加入了 <strong>KDF (Key Derivation Function) API</strong> (密鑰派生函數)。雖然 KDF 本身不是後量子專屬，但它是現代密碼學協議 (如 HPKE 和 TLS 1.3 混合密鑰交換) 中不可或缺的組件，用來從共享秘密中安全地生成額外密鑰。",
+                    color: "bg-stone-200 text-stone-800 hover:bg-stone-300",
+                    activeColor: "bg-stone-800 text-white"
+                },
+                {
+                    version: "JDK 26",
+                    year: "高階協議",
+                    title: "支援 HPKE (混合公開密鑰加密)",
+                    content: "結合前面的 KEM 和 KDF 基礎，JDK 26 加入了 <strong>HPKE (RFC 9180)</strong> 的支援。這是一種現代的加密方案，允許使用接收者的公鑰安全地加密任意大小的明文。未來計畫將 PQC 演算法整合進 HPKE 中。",
+                    color: "bg-stone-200 text-stone-800 hover:bg-stone-300",
+                    activeColor: "bg-stone-800 text-white"
+                },
+                {
+                    version: "JDK 27",
+                    year: "即將推出",
+                    title: "TLS 1.3 後量子混合密鑰交換",
+                    content: "<strong>最受矚目的應用層落地。</strong>在 JDK 27 中，TLS 1.3 將預設支援混合密鑰交換 (如 X25519 結合 ML-KEM 768)。這意味著開發者的 Java 網路通訊將自動獲得對抗「先收集，後解密」的量子安全防護，且完全無需修改程式碼！",
+                    color: "bg-java-blue text-white shadow-md shadow-java-blue/20 hover:bg-sky-800",
+                    activeColor: "bg-java-blue text-white ring-4 ring-java-blue/30"
+                }
+            ];
+
+            const controlsContainer = document.getElementById('timeline-controls');
+            const detailContainer = document.getElementById('timeline-detail');
+            let currentActiveButton = null;
+
+            // Generate timeline buttons
+            roadmapData.forEach((item, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-5 py-4 rounded-xl font-medium transition-all duration-200 flex justify-between items-center ${item.color}`;
+                btn.innerHTML = `
+                    <span class="text-lg">${item.version}</span>
+                    <span class="text-xs opacity-80 uppercase tracking-wider">${item.year}</span>
+                `;
+                
+                btn.addEventListener('click', () => {
+                    // Update Active State Visuals
+                    if (currentActiveButton) {
+                        const prevData = roadmapData[currentActiveButton.dataset.index];
+                        currentActiveButton.className = `w-full text-left px-5 py-4 rounded-xl font-medium transition-all duration-200 flex justify-between items-center ${prevData.color}`;
+                    }
+                    btn.className = `w-full text-left px-5 py-4 rounded-xl font-medium transition-all duration-200 flex justify-between items-center ${item.activeColor}`;
+                    currentActiveButton = btn;
+                    btn.dataset.index = index;
+
+                    // Update Details Panel
+                    updateDetailPanel(item);
+                });
+
+                controlsContainer.appendChild(btn);
+            });
+
+            function updateDetailPanel(data) {
+                // Remove previous content with a quick fade
+                detailContainer.innerHTML = '';
+                
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'fade-in space-y-6';
+                
+                contentWrapper.innerHTML = `
+                    <div class="inline-block bg-stone-100 text-stone-500 font-bold px-3 py-1 rounded text-sm tracking-widest border border-stone-200">
+                        ${data.version}
+                    </div>
+                    <h4 class="text-2xl md:text-3xl font-bold text-stone-900 leading-tight">
+                        ${data.title}
+                    </h4>
+                    <div class="h-1 w-12 bg-java-orange rounded"></div>
+                    <p class="text-stone-600 text-lg leading-relaxed">
+                        ${data.content}
+                    </p>
+                `;
+                
+                detailContainer.appendChild(contentWrapper);
+            }
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
