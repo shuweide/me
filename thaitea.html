@@ -19,141 +19,249 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(249, 115, 22, 0.1);
         }
+        .image-loading {
+            background: linear-gradient(90deg, #f3f3f3 25%, #e5e5e5 50%, #f3f3f3 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <!-- Header Section -->
-    <header class="orange-gradient text-white py-12 px-4 text-center shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">泰式手標金裝紅茶</h1>
-        <p class="text-lg opacity-90 max-w-2xl mx-auto">道地還原：濃縮液製作法 & 完美半糖比例</p>
+    <header class="orange-gradient text-white py-16 px-4 text-center shadow-lg relative overflow-hidden">
+        <div class="relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-md">泰式手標金裝紅茶</h1>
+            <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">道地還原：濃縮液製作法 & 完美半糖比例</p>
+        </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 -mt-8 pb-16">
+    <main class="max-w-4xl mx-auto px-4 -mt-10 pb-16">
         
+        <!-- Hero Image Container -->
+        <div class="mb-12 rounded-3xl overflow-hidden shadow-2xl bg-white aspect-video relative">
+            <div id="hero-loading" class="absolute inset-0 flex flex-col items-center justify-center image-loading z-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mb-4"></div>
+                <p class="text-orange-600 font-medium">正在為您調製視覺泰奶...</p>
+            </div>
+            <img id="hero-image" class="w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="道地泰式奶水冰茶">
+        </div>
+
         <!-- Quick Summary Card -->
-        <section class="glass-card rounded-3xl p-6 shadow-xl mb-8 flex flex-wrap justify-around items-center gap-4">
+        <section class="glass-card rounded-3xl p-6 shadow-xl mb-12 flex flex-wrap justify-around items-center gap-4 border border-orange-100">
             <div class="text-center">
-                <span class="block text-orange-600 font-bold text-2xl">金標</span>
-                <span class="text-sm text-gray-500">頂級茶葉</span>
+                <span class="block text-orange-600 font-bold text-2xl uppercase">Gold</span>
+                <span class="text-sm text-gray-500 font-medium">手標金裝</span>
             </div>
             <div class="text-center border-x border-gray-200 px-8">
-                <span class="block text-orange-600 font-bold text-2xl">半糖</span>
-                <span class="text-sm text-gray-500">減糖配方</span>
+                <span class="block text-orange-600 font-bold text-2xl">50%</span>
+                <span class="text-sm text-gray-500 font-medium">精準半糖</span>
             </div>
             <div class="text-center">
-                <span class="block text-orange-600 font-bold text-2xl">濃縮</span>
-                <span class="text-sm text-gray-500">方便保存</span>
+                <span class="block text-orange-600 font-bold text-2xl">1:10</span>
+                <span class="text-sm text-gray-500 font-medium">茶水比例</span>
             </div>
         </section>
 
         <!-- Materials Section -->
-        <section class="grid md:grid-cols-2 gap-8 mb-12">
+        <section class="grid md:grid-cols-2 gap-8 mb-16">
             <div class="bg-white rounded-2xl p-8 shadow-md">
                 <h2 class="text-2xl font-bold mb-6 flex items-center text-orange-700">
                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    核心材料
+                    準備材料
                 </h2>
                 <ul class="space-y-4">
                     <li class="flex items-start">
-                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1">茶</span>
-                        <div><strong>手標金裝茶葉：</strong>50g</div>
+                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1 font-bold">TEA</span>
+                        <div><strong>手標金裝茶葉：</strong>50g (金標香氣更細緻)</div>
                     </li>
                     <li class="flex items-start">
-                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1">水</span>
-                        <div><strong>過濾熱水：</strong>500ml (約 95°C)</div>
+                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1 font-bold">H2O</span>
+                        <div><strong>熱水：</strong>500ml (溫度 95°C 為佳)</div>
                     </li>
                     <li class="flex items-start">
-                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1">奶</span>
-                        <div><strong>泰國奶水 (淡奶)：</strong>三花或黑白</div>
+                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1 font-bold">MILK</span>
+                        <div><strong>泰國奶水：</strong>淡奶，乳脂含量是關鍵</div>
                     </li>
                     <li class="flex items-start">
-                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1">甜</span>
-                        <div><strong>煉乳：</strong>半糖關鍵來源</div>
+                        <span class="bg-orange-100 text-orange-600 rounded-full px-2 py-0.5 text-xs mr-3 mt-1 font-bold">SWEET</span>
+                        <div><strong>煉乳：</strong>提供濃縮甜度與稠度</div>
                     </li>
                 </ul>
             </div>
 
-            <div class="bg-white rounded-2xl p-8 shadow-md border-t-4 border-orange-500">
-                <h2 class="text-2xl font-bold mb-4 text-orange-700">比例公式 (單杯)</h2>
-                <div class="space-y-6">
-                    <div class="p-4 bg-orange-50 rounded-xl">
-                        <p class="text-sm text-orange-800 font-bold mb-1">【半糖版本配方】</p>
-                        <p class="text-lg">100ml 濃縮液 + 15ml 煉乳 + 40ml 奶水 + 滿杯碎冰</p>
-                    </div>
-                    <p class="text-sm text-gray-500 italic">※ 注意：金標茶感重，不額外加水，完全靠冰塊融化稀釋。</p>
+            <!-- Ingredients Image -->
+            <div class="rounded-2xl overflow-hidden shadow-md bg-white relative min-h-[300px]">
+                <div id="ingredients-loading" class="absolute inset-0 flex flex-col items-center justify-center image-loading z-20">
+                    <p class="text-orange-500 text-sm">準備材料清單中...</p>
                 </div>
+                <img id="ingredients-image" class="w-full h-full object-cover opacity-0 transition-opacity duration-1000" alt="泰奶製作材料：茶葉與煉乳">
             </div>
         </section>
 
         <!-- Instructions Step by Step -->
-        <section class="space-y-12">
-            <div>
-                <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">製作步驟</h2>
-                
+        <section class="space-y-12 mb-16">
+            <h2 class="text-3xl font-bold mb-10 text-center text-gray-800">復刻步驟</h2>
+            
+            <div class="grid gap-8">
                 <!-- Step 1 -->
-                <div class="relative pl-12 pb-12 border-l-2 border-orange-200">
-                    <div class="absolute -left-4 top-0 bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
-                    <h3 class="text-xl font-bold mb-3">製作濃縮液 (悶泡法)</h3>
-                    <p class="text-gray-600 mb-4">將 500ml 水煮至沸騰後關火。倒入 50g 茶葉攪拌 30 秒，蓋上蓋子<strong>悶泡 8-10 分鐘</strong>。切記勿持續大火滾煮，以免苦澀。</p>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-orange-500 text-white w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                    <div class="pt-1">
+                        <h3 class="text-xl font-bold mb-2">悶泡濃縮液</h3>
+                        <p class="text-gray-600">滾水關火，加入茶葉攪拌 30 秒。蓋上蓋子悶泡 8-10 分鐘，將風味鎖在茶湯中。</p>
+                    </div>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="relative pl-12 pb-12 border-l-2 border-orange-200">
-                    <div class="absolute -left-4 top-0 bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
-                    <h3 class="text-xl font-bold mb-3">強力濾乾</h3>
-                    <p class="text-gray-600 mb-4">使用濾布袋過濾，並<strong>用力擠壓茶渣</strong>。那幾滴深色的精華是泰奶靈魂，能提供極致的厚度與亮橘色澤。</p>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-orange-500 text-white w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                    <div class="pt-1">
+                        <h3 class="text-xl font-bold mb-2">精華萃取</h3>
+                        <p class="text-gray-600">使用濾袋過濾時，請用力擠壓茶渣，直到最後一滴亮橘色精華流出。</p>
+                    </div>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="relative pl-12 pb-12 border-l-2 border-orange-200">
-                    <div class="absolute -left-4 top-0 bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div>
-                    <h3 class="text-xl font-bold mb-3">調配底料</h3>
-                    <p class="text-gray-600 mb-4">取 100ml 熱濃縮液，加入 1 大勺(15ml) 煉乳及 20ml 奶水徹底攪拌均勻。剩餘 20ml 奶水留作最後頂部裝飾。</p>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-orange-500 text-white w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                    <div class="pt-1">
+                        <h3 class="text-xl font-bold mb-2">調配半糖比例</h3>
+                        <p class="text-gray-600 bg-orange-50 p-3 rounded-lg border border-orange-100">
+                            <strong>100ml 濃縮液 + 15ml 煉乳 + 20ml 奶水</strong>。攪拌至完全融合。
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Step 4 -->
-                <div class="relative pl-12 pb-2 border-l-2 border-orange-200">
-                    <div class="absolute -left-4 top-0 bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">4</div>
-                    <h3 class="text-xl font-bold mb-3">撞冰與裝飾</h3>
-                    <p class="text-gray-600 mb-4">將杯子裝滿冰塊（碎冰更道地），直接沖入混合好的泰奶。最後淋上剩餘奶水，完成視覺上的層次感。</p>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-orange-500 text-white w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl shadow-lg">4</div>
+                    <div class="pt-1">
+                        <h3 class="text-xl font-bold mb-2">撞冰與淋奶</h3>
+                        <p class="text-gray-600">將混合液倒入裝滿<strong>碎冰</strong>的杯子，最後在頂部補上 20ml 奶水，完美呈現層次感。</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Pro Tips Grid -->
-        <section class="mt-16">
-            <h2 class="text-2xl font-bold mb-8 text-center text-gray-800 italic">"專業職人筆記"</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-gray-800 text-white p-6 rounded-2xl">
-                    <h4 class="font-bold mb-2 flex items-center text-orange-400">
-                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"></path></svg>
-                        保存期限
+        <section class="bg-gray-900 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10">
+                <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-10 border-b border-gray-700 pb-4">職人祕訣 (Pro Tips)</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-orange-400 font-bold mb-3 flex items-center uppercase tracking-wider text-sm">
+                        <span class="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
+                        Never Add Water
                     </h4>
-                    <p class="text-sm opacity-80">純濃縮液冷藏可放 24-48 小時。建議使用冰塊盒製作成「泰奶冰塊」可保存 2 週。</p>
+                    <p class="text-sm text-gray-400 leading-relaxed">不要額外加水。奶水與碎冰融化後的水量已足以稀釋出最濃郁的比例。</p>
                 </div>
-                <div class="bg-gray-800 text-white p-6 rounded-2xl">
-                    <h4 class="font-bold mb-2 flex items-center text-orange-400">
-                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path></svg>
-                        拒絕加水
+                <div>
+                    <h4 class="text-orange-400 font-bold mb-3 flex items-center uppercase tracking-wider text-sm">
+                        <span class="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
+                        Cold Clouds
                     </h4>
-                    <p class="text-sm opacity-80">千萬不要在濃縮液中加水！冰塊與奶水的水分足以稀釋到完美比例，加水會淡如開水。</p>
+                    <p class="text-sm text-gray-400 leading-relaxed">冷藏後的濃縮液變濁是正常的高品質現象，加熱或加入熱奶水後即恢復清澈橘色。</p>
                 </div>
-                <div class="bg-gray-800 text-white p-6 rounded-2xl">
-                    <h4 class="font-bold mb-2 flex items-center text-orange-400">
-                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>
-                        冷渾濁現象
+                <div>
+                    <h4 class="text-orange-400 font-bold mb-3 flex items-center uppercase tracking-wider text-sm">
+                        <span class="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
+                        Storage
                     </h4>
-                    <p class="text-sm opacity-80">茶湯冷藏變混濁是高品質茶多酚的表現。只要加熱或加入熱奶水，茶湯便會恢復亮橘色。</p>
+                    <p class="text-sm text-gray-400 leading-relaxed">製作成「泰奶冰塊」是長期保存的最佳方法，飲用時風味完全不稀釋。</p>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="text-center py-8 text-gray-400 text-sm">
-        <p>© 2024 泰奶職人指南 - 手標金裝復刻版</p>
+    <footer class="text-center py-10 text-gray-400 text-sm border-t border-gray-100 bg-white">
+        <p class="mb-2">手標金裝版專業指南</p>
+        <p>© 2024 Thai Tea Masterpiece</p>
     </footer>
 
+    <script>
+        const apiKey = ""; // API Key 運行環境將自動提供
+
+        async function generateImage(prompt, imageId, loadingId) {
+            const imageEl = document.getElementById(imageId);
+            const loadingEl = document.getElementById(loadingId);
+
+            // 實作指數退避重試機制
+            const fetchWithRetry = async (retries = 5, delay = 1000) => {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                instances: { prompt: prompt },
+                                parameters: { sampleCount: 1 }
+                            })
+                        });
+
+                        if (response.ok) return response;
+                        
+                        // 若失敗則進行下次重試
+                        if (i < retries - 1) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            delay *= 2;
+                        }
+                    } catch (error) {
+                        if (i < retries - 1) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            delay *= 2;
+                        } else {
+                            throw error;
+                        }
+                    }
+                }
+                throw new Error('Image generation failed after maximum retries');
+            };
+
+            try {
+                const response = await fetchWithRetry();
+                const result = await response.json();
+                
+                if (result.predictions && result.predictions[0] && result.predictions[0].bytesBase64Encoded) {
+                    const base64Data = result.predictions[0].bytesBase64Encoded;
+                    imageEl.src = `data:image/png;base64,${base64Data}`;
+                    
+                    imageEl.onload = () => {
+                        imageEl.classList.remove('opacity-0');
+                        imageEl.classList.add('opacity-100');
+                        loadingEl.style.display = 'none';
+                    };
+                } else {
+                    throw new Error('Invalid response structure');
+                }
+            } catch (error) {
+                console.error('Image generation error:', error);
+                loadingEl.innerHTML = '<p class="text-red-400 text-sm px-4 text-center">生成服務暫時忙碌中<br><span class="text-xs opacity-60">請稍後重新整理頁面</span></p>';
+            }
+        }
+
+        window.onload = () => {
+            // 生成主視覺圖
+            generateImage(
+                "Professional food photography of a glass of authentic Thai iced tea with vibrant orange color, overflowing with crushed ice, topped with a thick creamy swirl of white evaporated milk, condensation on the glass, tropical wooden table background, sunny lighting, high resolution 4k.",
+                "hero-image",
+                "hero-loading"
+            );
+
+            // 生成材料圖
+            generateImage(
+                "Aesthetic flat lay of Thai milk tea ingredients: a pile of dry black tea leaves, an open tin can of condensed milk with a spoon, a small pitcher of evaporated milk, on a rustic kitchen counter, warm lighting, minimalist style.",
+                "ingredients-image",
+                "ingredients-loading"
+            );
+        };
+    </script>
 </body>
 </html>
