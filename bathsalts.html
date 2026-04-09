@@ -1,0 +1,235 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Droplets, 
+  Wind, 
+  Moon, 
+  Zap, 
+  Leaf, 
+  Sparkles, 
+  Heart, 
+  Sun, 
+  ShieldCheck, 
+  FlaskConical,
+  Info,
+  Camera,
+  Star,
+  Coffee
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('all');
+  const [heroImage, setHeroImage] = useState('images/salt.png);
+
+  const recipes = [
+    { id: 1, title: "深層舒壓放鬆", category: "relax", oils: ["薰衣草 4滴", "佛手柑 2滴", "乳香 1滴"], desc: "最適合睡前使用，幫助神經放鬆與提升睡眠品質。", icon: <Moon className="w-6 h-6 text-indigo-500" />, color: "border-indigo-200 bg-indigo-50/30" },
+    { id: 2, title: "緩解痠痛疲勞", category: "pain", oils: ["薄荷 3滴", "迷迭香 2滴", "尤加利 2滴"], desc: "針對久站或運動後的肌肉緊繃，提供涼感與循環。", icon: <Zap className="w-6 h-6 text-orange-500" />, color: "border-orange-200 bg-orange-50/30" },
+    { id: 3, title: "淨化除臭清新", category: "clean", oils: ["茶樹 3滴", "檸檬 2滴", "絲柏 2滴"], desc: "強力抗菌與去味，讓雙腳恢復乾爽清潔感。", icon: <Wind className="w-6 h-6 text-teal-500" />, color: "border-teal-200 bg-teal-50/30" },
+    { id: 4, title: "暖冬促進循環", category: "warm", oils: ["生薑 3滴", "甜橙 3滴", "肉桂 1滴"], desc: "適合手腳冰冷者，帶動身體暖意，散寒效果佳。", icon: <Sun className="w-6 h-6 text-red-500" />, color: "border-red-200 bg-red-50/30" },
+    { id: 5, title: "日式森林浴", category: "relax", oils: ["絲柏 3滴", "檜木 3滴", "杜松子 2滴"], desc: "模擬溫泉區氛圍，靜心並幫助排除足部多餘水分。", icon: <Leaf className="w-6 h-6 text-emerald-600" />, color: "border-emerald-200 bg-emerald-50/30" },
+    { id: 6, title: "極致美足修護", category: "beauty", oils: ["天竺葵 3滴", "玫瑰草 2滴", "薰衣草 2滴"], desc: "針對腳跟粗糙設計，軟化角質並深度滋潤肌膚。", icon: <Heart className="w-6 h-6 text-pink-500" />, color: "border-pink-200 bg-pink-50/30" },
+    { id: 7, title: "強效運動恢復", category: "pain", oils: ["冬青 2滴", "檸檬香茅 3滴", "甜馬鬱蘭 2滴"], desc: "緩解高強度運動後的乳酸堆積，預防肌肉痙攣。", icon: <Star className="w-6 h-6 text-amber-500" />, color: "border-amber-200 bg-amber-50/30" },
+    { id: 8, title: "清晨喚醒排水", category: "morning", oils: ["葡萄柚 4滴", "迷迭香 2滴", "苦橙葉 1滴"], desc: "早晨提神專用，消水腫並提升專注力。", icon: <Coffee className="w-6 h-6 text-sky-500" />, color: "border-sky-200 bg-sky-50/30" },
+    { id: 9, title: "深度強效淨化", category: "clean", oils: ["牛至 1滴", "丁香 1滴", "茶樹 3滴", "檸檬 2滴"], desc: "針對嚴重腳汗或長期悶熱環境的強力除菌方案。", icon: <ShieldCheck className="w-6 h-6 text-green-600" />, color: "border-green-200 bg-green-50/30" }
+  ];
+
+  const categories = [
+    { id: 'all', name: '全部配方', color: 'bg-stone-800' },
+    { id: 'relax', name: '放鬆紓壓', color: 'bg-indigo-500' },
+    { id: 'pain', name: '肌肉痠痛', color: 'bg-orange-500' },
+    { id: 'clean', name: '淨化除臭', color: 'bg-teal-500' },
+    { id: 'warm', name: '溫暖循環', color: 'bg-red-500' },
+    { id: 'beauty', name: '美足修護', color: 'bg-pink-500' }
+  ];
+
+  const filteredRecipes = activeTab === 'all' ? recipes : recipes.filter(r => r.category === activeTab);
+
+  return (
+    <div className="min-h-screen bg-[#fdfcf8] font-sans text-stone-800">
+      {/* 活潑的 Hero Section */}
+      <header className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroImage} 
+            alt="療癒足浴鹽" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white"></div>
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl">
+          <span className="inline-block px-4 py-1 mb-4 text-xs font-bold tracking-widest text-white uppercase bg-teal-500 rounded-full animate-bounce">
+            DIY Wellness Guide
+          </span>
+          <h1 className="text-5xl md:text-7xl font-black text-stone-900 mb-6 drop-shadow-sm">
+            把森林與陽光<br/>
+            <span className="text-teal-600">裝進浴鹽裡</span>
+          </h1>
+          <p className="text-stone-700 text-lg md:text-xl font-medium max-w-xl mx-auto leading-relaxed">
+            這不是普通的鹽，這是專屬於你的能量補充包。用天然精油調配出的色彩與香氣，徹底療癒疲憊的雙足。
+          </p>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        
+        {/* 基礎材料卡片 - 更活潑的排版 */}
+        <section className="mb-24">
+          <div className="flex items-center gap-3 mb-10">
+            <div className="p-3 bg-amber-400 rounded-2xl shadow-lg shadow-amber-200/50">
+              <FlaskConical className="text-white w-8 h-8" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-black">基礎材料：黃金基底</h2>
+              <p className="text-stone-400 font-bold uppercase tracking-tighter">The Secret Base</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: "瀉鹽", sub: "放鬆與消腫", desc: "豐富的鎂能緩解肌肉緊繃，是所有療效的來源。", color: "border-l-indigo-400" },
+              { title: "喜馬拉雅鹽", sub: "淨化與能量", desc: "提供天然礦物質，並帶給浴鹽優雅的粉嫩色調。", color: "border-l-rose-400" },
+              { title: "小蘇打粉", sub: "除臭與滑順", desc: "中和異味，讓你的腳底皮膚摸起來像小北鼻一樣滑。", color: "border-l-teal-400" }
+            ].map((item, idx) => (
+              <div key={idx} className={`bg-white p-8 rounded-[2rem] shadow-xl shadow-stone-200/40 border-l-8 ${item.color} transform hover:-translate-y-2 transition-all duration-300`}>
+                <h3 className="font-black text-2xl mb-1 text-stone-800">{item.title}</h3>
+                <p className="text-stone-400 text-sm font-bold mb-4 uppercase">{item.sub}</p>
+                <p className="text-stone-600 leading-relaxed text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 配方篩選器 */}
+        <section className="mb-24">
+          <div className="flex flex-col items-center mb-12">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <Sparkles className="text-amber-500 fill-amber-500" />
+              <h2 className="text-4xl font-black text-center">探索精油配方</h2>
+            </div>
+            <div className="flex flex-wrap justify-center gap-3">
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveTab(cat.id)}
+                  className={`px-6 py-2 rounded-2xl font-bold transition-all duration-300 shadow-md ${
+                    activeTab === cat.id 
+                    ? `${cat.color} text-white scale-110 shadow-lg` 
+                    : 'bg-white text-stone-500 hover:bg-stone-100 hover:text-stone-800'
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 配方卡片網格 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredRecipes.map(recipe => (
+              <div key={recipe.id} className={`group relative rounded-[3rem] p-8 border-2 ${recipe.color} transition-all duration-500 hover:shadow-2xl hover:bg-white`}>
+                <div className="flex justify-between items-start mb-6">
+                  <div className="p-4 bg-white rounded-2xl shadow-sm group-hover:scale-110 transition-transform">
+                    {recipe.icon}
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-stone-400">Step 0{recipe.id}</span>
+                    <span className="w-8 h-1 bg-stone-200 mt-1 rounded-full"></span>
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl font-black mb-4 group-hover:text-stone-900 transition-colors">{recipe.title}</h3>
+                
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {recipe.oils.map((oil, idx) => (
+                    <span key={idx} className="bg-white/80 backdrop-blur-sm text-stone-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-white shadow-sm">
+                      {oil}
+                    </span>
+                  ))}
+                </div>
+                
+                <p className="text-stone-500 text-sm leading-relaxed font-medium">
+                  {recipe.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 活潑的製作步驟 */}
+        <section className="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-[4rem] p-12 text-white shadow-2xl relative overflow-hidden mb-24">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-400/20 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+          
+          <h2 className="text-4xl font-black text-center mb-16 relative z-10">只需 4 步，完成你的足浴鹽！</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10 text-center">
+            {[
+              { t: "混合", d: "將鹽基底在大盆中混合" },
+              { t: "稀釋", d: "精油與 10ml 植物油混勻" },
+              { t: "揉合", d: "倒入鹽中充分攪拌均勻" },
+              { t: "封存", d: "裝入玻璃瓶中避光保存" }
+            ].map((s, i) => (
+              <div key={i} className="group cursor-default">
+                <div className="w-16 h-16 bg-white text-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-6 font-black text-2xl shadow-xl group-hover:rotate-12 transition-transform">
+                  {i + 1}
+                </div>
+                <h4 className="text-xl font-bold mb-2">{s.t}</h4>
+                <p className="text-teal-50/70 text-sm font-medium">{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 小叮嚀 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-rose-100 p-10 rounded-[3rem] border-2 border-rose-200">
+            <h3 className="text-2xl font-black mb-6 flex items-center gap-3 text-rose-800">
+              <ShieldCheck className="w-8 h-8" /> 使用小叮嚀
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white/50 p-4 rounded-2xl">
+                <p className="text-xs font-bold text-rose-400 uppercase mb-1">最佳水溫</p>
+                <p className="font-black text-rose-800">38°C – 42°C</p>
+              </div>
+              <div className="bg-white/50 p-4 rounded-2xl">
+                <p className="text-xs font-bold text-rose-400 uppercase mb-1">建議用量</p>
+                <p className="font-black text-rose-800">2–3 大匙</p>
+              </div>
+              <div className="bg-white/50 p-4 rounded-2xl">
+                <p className="text-xs font-bold text-rose-400 uppercase mb-1">最佳時間</p>
+                <p className="font-black text-rose-800">15–20 分鐘</p>
+              </div>
+              <div className="bg-white/50 p-4 rounded-2xl">
+                <p className="text-xs font-bold text-rose-400 uppercase mb-1">保存期限</p>
+                <p className="font-black text-rose-800">約 3 個月</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-indigo-600 p-10 rounded-[3rem] text-white flex flex-col justify-center shadow-xl shadow-indigo-200">
+            <h3 className="text-3xl font-black mb-4">準備好開始了嗎？</h3>
+            <p className="text-indigo-100 mb-8 leading-relaxed">
+              現在就打開你的精油盒，挑選一個最符合你當下心情的配方。
+              別忘了在玻璃罐裡撒上一點乾燥玫瑰花或薰衣草，讓這份禮物看起來更迷人！
+            </p>
+            <div className="mt-auto flex items-center gap-4 border-t border-indigo-500 pt-6">
+              <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center">
+                <Info size={20} />
+              </div>
+              <p className="text-xs font-bold tracking-widest uppercase opacity-60">Handmade with love & nature</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer className="py-16 text-center">
+        <div className="w-12 h-1 bg-stone-200 mx-auto mb-6 rounded-full"></div>
+        <p className="text-stone-400 text-xs font-black tracking-[0.3em] uppercase">
+          Lifestyle Wellness Project — 2026
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
